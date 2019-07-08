@@ -56,12 +56,48 @@ server.get('/api/users/:id', async (req, res) => {
   }
 });
 
-server.delete('/api/users/:id', (req, res) => {
-  res.json('Delete a user by id param');
+server.delete('/api/users/:id', async (req, res) => {
+  try {
+    const { params } = req;
+    const id = params.id;
+    const userToDelete = await User.findById(id);
+    if (userToDelete) {
+      await User.remove(id);
+      res.json(userToDelete);
+    } else {
+      res
+        .status(404)
+        .json({ message: 'The user with the specified ID does not exist.' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'The user could not be removed' });
+  }
 });
 
-server.put('/api/users/:id', (req, res) => {
-  res.json('Update a user by id param');
+server.put('/api/users/:id', async (req, res) => {
+  try {
+    const data = req.body;
+    const id = req.params.id;
+    if (!data.name || !data.bio) {
+      res
+        .status(400)
+        .json({ errorMessage: 'Please provide name and bio for the user.' });
+    } else {
+      const userToUpdate = await User.findById(id);
+      if (!userToUpdate) {
+        res
+          .status(404)
+          .json({ message: 'The user with the specified ID does not exist.' });
+      } else {
+        await User.update(id, data);
+        res.json({ ...data, id });
+      }
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: 'The user information could not be modified.' });
+  }
 });
 
 server.listen(3000, () => console.log('API running on port 3000'));
