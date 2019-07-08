@@ -1,2 +1,2 @@
-- To run
-Execute $ npm run dev
+# Next.js React App
+- To run execute `$ npm install && npm run dev`
