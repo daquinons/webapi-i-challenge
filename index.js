@@ -37,8 +37,23 @@ server.post('/api/users', async (req, res) => {
   }
 });
 
-server.get('/api/users/:id', (req, res) => {
-  res.json('Get a user by id param');
+server.get('/api/users/:id', async (req, res) => {
+  try {
+    const { params } = req;
+    const id = params.id;
+    const user = await User.findById(id);
+    if (user) {
+      res.json(user);
+    } else {
+      res
+        .status(404)
+        .json({ message: 'The user with the specified ID does not exist.' });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: 'The user information could not be retrieved.' });
+  }
 });
 
 server.delete('/api/users/:id', (req, res) => {
