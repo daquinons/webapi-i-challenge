@@ -10,8 +10,8 @@ module.exports = {
   remove,
 };
 
-function find() {
-  return db('users');
+async function find() {
+  return await db('users');
 }
 
 function findById(id) {
@@ -20,8 +20,8 @@ function findById(id) {
     .first();
 }
 
-function insert(user) {
-  return db('users')
+async function insert(user) {
+  return await db('users')
     .insert(user)
     .then(ids => ({ id: ids[0] }));
 }
