@@ -1,5 +1,4 @@
 const HobbitsList = ({ hobbits }) => {
-  console.log(hobbits);
   return hobbits
     ? hobbits.map((hobbit, index) => {
         return (
