@@ -1,20 +1,33 @@
+import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import HobbitsList from '../components/HobbitsList';
 import fetch from 'isomorphic-unfetch';
 
-const Index = ({ hobbits }) => {
+const Index = () => {
+  const [hobbits, setHobbits] = useState([]);
+  useEffect( () => {
+    const fetchData = async () => {
+      await getHobbits();
+    }
+    fetchData();
+  }, []);
+
+  const update = async () => {
+    await getHobbits();
+  };
+
+  const getHobbits = async () => {
+    const res = await fetch('http://localhost:4000/api/users');
+    const json = await res.json();
+    setHobbits(json);
+  };
+
   return (
     <>
       <Header />
-      <HobbitsList hobbits={hobbits} />
+      <HobbitsList hobbits={hobbits} update={update} />
     </>
   );
-};
-
-Index.getInitialProps = async ({ req }) => {
-  const res = await fetch('http://localhost:4000/api/users');
-  const json = await res.json();
-  return { hobbits: json };
 };
 
 export default Index;
