@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
 
 const HobbitsList = ({ hobbits, update }) => {
@@ -17,7 +18,7 @@ const HobbitsList = ({ hobbits, update }) => {
     ? hobbits.map((hobbit, index) => {
         return (
           <div className="hobbit" key={index}>
-            <ul>{hobbit.name} <button onClick={onDelete} id={index}>Delete</button></ul>
+            <ul>{hobbit.name} <button onClick={onDelete} id={index}>Delete</button> <Link href={{ pathname: 'edit', query: { object: JSON.stringify(hobbits[index]) }}}><button>Edit</button></Link></ul>
             <ul>{hobbit.bio}</ul>
             <br />
           </div>
