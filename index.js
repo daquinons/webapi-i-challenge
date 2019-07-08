@@ -1,8 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const User = require('./data/db');
 
 const server = express();
 server.use(express.json());
+server.use(cors());
 
 server.get('/api/users', async (req, res) => {
   try {
@@ -100,4 +102,4 @@ server.put('/api/users/:id', async (req, res) => {
   }
 });
 
-server.listen(3000, () => console.log('API running on port 3000'));
+server.listen(4000, () => console.log('API running on port 4000'));
