@@ -10,30 +10,30 @@ module.exports = {
   remove,
 };
 
-function find() {
-  return db('users');
+async function find() {
+  return await db('users');
 }
 
-function findById(id) {
-  return db('users')
+async function findById(id) {
+  return await db('users')
     .where({ id: Number(id) })
     .first();
 }
 
-function insert(user) {
-  return db('users')
+async function insert(user) {
+  return await db('users')
     .insert(user)
     .then(ids => ({ id: ids[0] }));
 }
 
-function update(id, user) {
-  return db('users')
+async function update(id, user) {
+  return await db('users')
     .where('id', Number(id))
     .update(user);
 }
 
-function remove(id) {
-  return db('users')
+async function remove(id) {
+  return await db('users')
     .where('id', Number(id))
     .del();
 }
